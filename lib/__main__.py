@@ -1,5 +1,11 @@
+
 from pyrogram import Client, filters, idle
 from lib.config import API_ID, API_HASH, BOT_TOKEN, PREFIXES
+
+
+
+
+
 from lib.driver.stream import app
 
 bot = Client(

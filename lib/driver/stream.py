@@ -1,13 +1,23 @@
-import os
 import asyncio
-from pytgcalls import GroupCallFactory
+import os
+
 from pyrogram import Client, filters
+
 from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from lib.config import API_ID, API_HASH, SESSION_NAME
 
+
+from pytgcalls import GroupCallFactory
+
+
+from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL
+
+
 app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call_factory = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+group_call_factory = GroupCallFactory(
+    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+
 
 @Client.on_message(filters.cmd("stream"))
 async def stream(client, m: Message):
@@ -65,8 +75,8 @@ async def stream(client, m: Message):
                             '📣 Channel support', url='https://t.me/feyystatus',
                         ),
                     ],
-                 ],
-             )
+                ],
+            )
             await m.reply_photo(
                 photo="./etc/banner.png",
                 caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /stop",
@@ -77,7 +87,12 @@ async def stream(client, m: Message):
     else:
         await m.reply("`Reply to some Video!`")
 
+
 @Client.on_message(filters.cmd("cstream"))
+
+
+
+
 async def cstream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
@@ -133,8 +148,8 @@ async def cstream(client, m: Message):
                             '📣 Channel support', url='https://t.me/feyystatus',
                         ),
                     ],
-                 ],
-             )
+                ],
+            )
             await m.reply_photo(
                 photo="./etc/banner.png",
                 caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /cstop",
