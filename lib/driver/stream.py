@@ -7,7 +7,9 @@ from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from lib.config import API_ID, API_HASH, SESSION_NAME, USERNAME_BOT
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call_factory = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+group_call_factory = GroupCallFactory(
+    app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+
 
 @Client.on_message(filters.command(["stream", "stream@{USERNAME_BOT}"]))
 async def stream(client, m: Message):
@@ -65,8 +67,8 @@ async def stream(client, m: Message):
                             '📣 Channel support', url='https://t.me/feyystatus',
                         ),
                     ],
-                 ],
-             )
+                ],
+            )
             await m.reply_photo(
                 photo="./etc/banner.png",
                 caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /stop",
@@ -76,6 +78,7 @@ async def stream(client, m: Message):
             await msg.edit(f"**Error** -- `{e}`")
     else:
         await m.reply("`Reply to some Video!`")
+
 
 @Client.on_message(filters.command(["cstream", "cstream@{USERNAME_BOT}"]))
 async def cstream(client, m: Message):
@@ -133,8 +136,8 @@ async def cstream(client, m: Message):
                             '📣 Channel support', url='https://t.me/feyystatus',
                         ),
                     ],
-                 ],
-             )
+                ],
+            )
             await m.reply_photo(
                 photo="./etc/banner.png",
                 caption=f"**Streamed video from telegram files**\n**Requested by:** {user}\n**To stop:** /cstop",

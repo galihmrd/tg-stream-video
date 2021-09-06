@@ -5,6 +5,7 @@ from lib.config import USERNAME_BOT
 VIDEO_CALL = {}
 CHANNEL_VIDEO = {}
 
+
 @Client.on_message(filters.command(["stop", "stop@{USERNAME_BOT}"]))
 async def stopvideo(client, m: Message):
     chat_id = m.chat.id
@@ -14,6 +15,7 @@ async def stopvideo(client, m: Message):
         await m.reply(f"**Stopped by {user}!**")
     except Exception as e:
         await m.reply(f"**Error** - `{e}`")
+
 
 @Client.on_message(filters.command(["cstop", "cstop@{USERNAME_BOT"]))
 async def cstop(client, message):

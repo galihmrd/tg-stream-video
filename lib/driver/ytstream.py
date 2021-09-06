@@ -34,10 +34,11 @@ async def ytstream(client, message):
             ],
         )
         await message.reply_photo(
-              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
-              photo = "./etc/banner.png",
-              reply_markup = keyboard,
+            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /stop",
+            photo="./etc/banner.png",
+            reply_markup=keyboard,
         )
+
 
 @Client.on_message(filters.command("ytcstream"))
 async def cstream(client, message):
@@ -68,7 +69,7 @@ async def cstream(client, message):
             ],
         )
         await message.reply_photo(
-              caption = f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
-              photo = "./etc/banner.png",
-              reply_markup = keyboard,
+            caption=f"**Streaming via [youtube url]({query})**\n**Requested by:** {rby}\n**To stop:** /cstop",
+            photo="./etc/banner.png",
+            reply_markup=keyboard,
         )
