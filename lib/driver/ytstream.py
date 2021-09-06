@@ -16,7 +16,7 @@ async def ytstream(client, message):
         video = pafy.new(query)
         final_source = video.getbest().url
     except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+        await message.reply(f'**Error:** {e}')
     if len(message.command) < 2:
         await message.reply("Give some youtube video url")
     else:
@@ -51,7 +51,7 @@ async def cstream(client, message):
         video = pafy.new(query)
         source = video.getbest().url
     except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+        await message.reply(f'**Error:** {e}')
     if len(message.command) < 2:
         await message.reply("Give some youtube url")
     else:
