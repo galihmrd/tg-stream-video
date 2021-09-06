@@ -4,12 +4,12 @@ from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
-from lib.config import API_ID, API_HASH, SESSION_NAME, USERNAME_BOT
+from lib.config import API_ID, API_HASH, SESSION_NAME
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call_factory = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
 
-@Client.on_message(filters.command(["stream", "stream@{USERNAME_BOT}"]))
+@Client.on_message(filters.cmd("stream"))
 async def stream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
@@ -77,7 +77,7 @@ async def stream(client, m: Message):
     else:
         await m.reply("`Reply to some Video!`")
 
-@Client.on_message(filters.command(["cstream", "cstream@{USERNAME_BOT}"]))
+@Client.on_message(filters.cmd("cstream"))
 async def cstream(client, m: Message):
     replied = m.reply_to_message
     if not replied:

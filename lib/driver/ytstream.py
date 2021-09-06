@@ -5,7 +5,7 @@ from lib.driver.stream import group_call_factory
 from lib.driver.misc import VIDEO_CALL, CHANNEL_VIDEO
 
 
-@Client.on_message(filters.command("ytstream"))
+@Client.on_message(filters.cmd("ytstream"))
 async def ytstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention
@@ -23,7 +23,7 @@ async def ytstream(client, message):
         await message.reply(f"**Streaming via youtube url**\n**Requested by:** {rby}\n**To stop:** /stop")
         await txt.delete()
 
-@Client.on_message(filters.command("ytcstream"))
+@Client.on_message(filters.cmd("ytcstream"))
 async def cstream(client, message):
     query = message.command[1]
     rby = message.from_user.mention

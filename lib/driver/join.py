@@ -2,10 +2,9 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import UserAlreadyParticipant
 from lib.driver.stream import app as USER
-from lib.config import USERNAME_BOT
 
 
-@Client.on_message(filters.command(["join", "join@{USERNAME_BOT}"]))
+@Client.on_message(filters.cmd("join"))
 async def join(client, message):
     chat_id = message.chat.id
     try:

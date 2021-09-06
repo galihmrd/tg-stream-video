@@ -1,11 +1,10 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from lib.config import USERNAME_BOT
 
 VIDEO_CALL = {}
 CHANNEL_VIDEO = {}
 
-@Client.on_message(filters.command(["stop", "stop@{USERNAME_BOT}"]))
+@Client.on_message(filters.cmd("stop"))
 async def stopvideo(client, m: Message):
     chat_id = m.chat.id
     user = m.from_user.mention
@@ -15,7 +14,7 @@ async def stopvideo(client, m: Message):
     except Exception as e:
         await m.reply(f"**Error** - `{e}`")
 
-@Client.on_message(filters.command(["cstop", "cstop@{USERNAME_BOT"]))
+@Client.on_message(filters.cmd("cstop"))
 async def cstop(client, message):
     chat_id = message.chat.title
     user = message.from_user.mention
