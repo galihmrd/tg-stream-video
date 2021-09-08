@@ -19,7 +19,7 @@ async def stopvideo(client, m: Message):
         await VIDEO_CALL[chat_id].stop()
         await m.reply(f"**Stopped by {user}!**")
     except Exception as e:
-        await m.reply(f"**Error:** {str(e)}")
+        await m.reply(f'**Error:** {e}')
 
 @Client.on_message(filters.command(["cstop",
                                     "cstop@{USERNAME_BOT"]) & public_filters)
@@ -30,7 +30,7 @@ async def cstop(client, message):
         await CHANNEL_VIDEO[chat_id].stop()
         await message.reply(f"**Stopped by {user}!**")
     except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+        await message.reply(f'**Error:** {e}')
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
 async def ping_(client: Client, message: Message):
@@ -48,9 +48,7 @@ async def repo(client, message):
 @Client.on_message(filters.command(["schedule",
                                     "schedule@{USERNAME_BOT}"]) & public_filters)
 async def sch(client, message):
-    if len(message.command) >= 2:
-        pass
-    else:
+    if len(message.command) < 2:
         await message.reply("Please enter value in seconds")
         return
     chat_id = message.chat.id
