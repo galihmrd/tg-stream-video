@@ -56,7 +56,7 @@ async def ytstream(client, message):
             try:
                await VIDEO_CALL[chat_id].stop()
                os.remove(f"{source}")
-            except Exception as e:
+            except Exception:
                pass
             return
         await txt.delete()
@@ -102,7 +102,7 @@ async def cstream(client, message):
             try:
                await CHANNEL_VIDEO[chat_id].stop()
                os.remove(f"{source}")
-            except Exception as e:
+            except Exception:
                pass
             return
         await text.delete()

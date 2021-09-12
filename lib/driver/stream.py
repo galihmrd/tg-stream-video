@@ -54,7 +54,7 @@ async def stream(client, m: Message):
                     try:
                         await VIDEO_CALL[chat_id].stop()
                         os.remove(f"{source}")
-                    except Exception as e:
+                    except Exception:
                         pass
                     return
                 await msg.delete()
@@ -95,11 +95,10 @@ async def stream(client, m: Message):
                 try:
                     await VIDEO_CALL[chat_id].stop()
                     os.remove(f"{source}")
-                except Exception as e:
+                except Exception:
                     pass
                 return
             await msg.delete()
-            group_call.on_playout_ended
             keyboard = InlineKeyboardMarkup(
 
                 [
@@ -145,7 +144,7 @@ async def cstream(client, m: Message):
                     try:
                         await CHANNEL_VIDEO[chat_id].stop()
                         os.remove(f"{source}")
-                    except Exception as e:
+                    except Exception:
                         pass
                     return
                 await msg.delete()
@@ -184,7 +183,7 @@ async def cstream(client, m: Message):
                 try:
                     await CHANNEL_VIDEO[chat_id].stop()
                     os.remove(f"{source}")
-                except Exception as e:
+                except Exception:
                     pass
                 return
             await msg.delete()
