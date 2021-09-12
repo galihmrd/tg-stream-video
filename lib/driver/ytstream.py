@@ -13,6 +13,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
+import os
 import pafy
 from pyrogram import Client, filters
 from pyrogram.types import (
@@ -49,6 +50,15 @@ async def ytstream(client, message):
         VIDEO_CALL[chat_id] = group_call
         PAUSE[chat_id] = group_call
         RESUME[chat_id] = group_call
+        @group_call.on_playout_ended
+        async def media_ended(_, source, media_type):
+            print(f'{media_type} ended: {source}')
+            try:
+               await VIDEO_CALL[chat_id].stop()
+               os.remove(f"{source}")
+            except Exception as e:
+               pass
+            return
         await txt.delete()
         keyboard = InlineKeyboardMarkup(
             [
@@ -86,6 +96,15 @@ async def cstream(client, message):
         await group_call.join(int(chat_id))
         await group_call.start_video(source, enable_experimental_lip_sync=True)
         CHANNEL_VIDEO[chat_id] = group_call
+        @group_call.on_playout_ended
+        async def media_ended(_, source, media_type):
+            print(f'{media_type} ended: {source}')
+            try:
+               await CHANNEL_VIDEO[chat_id].stop()
+               os.remove(f"{source}")
+            except Exception as e:
+               pass
+            return
         await text.delete()
         keyboard = InlineKeyboardMarkup(
             [

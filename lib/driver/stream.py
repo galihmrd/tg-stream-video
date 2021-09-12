@@ -28,7 +28,6 @@ from lib.helpers.filters import private_filters, public_filters
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, PAUSE, RESUME
 
 
-
 @Client.on_message(filters.command(["stream",
                                     "stream@{USERNAME_BOT}"]) & public_filters)
 async def stream(client, m: Message):
@@ -49,6 +48,15 @@ async def stream(client, m: Message):
                 VIDEO_CALL[chat_id] = group_call
                 PAUSE[chat_id] = group_call
                 RESUME[chat_id] = group_call
+                @group_call.on_playout_ended
+                async def media_ended(_, source, media_type):
+                    print(f'{media_type} ended: {source}')
+                    try:
+                        await VIDEO_CALL[chat_id].stop()
+                        os.remove(f"{source}")
+                    except Exception as e:
+                        pass
+                    return
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
 
@@ -81,7 +89,17 @@ async def stream(client, m: Message):
             VIDEO_CALL[chat_id] = group_call
             PAUSE[chat_id] = group_call
             RESUME[chat_id] = group_call
+            @group_call.on_playout_ended
+            async def media_ended(_, source, media_type):
+                print(f'{media_type} ended: {source}')
+                try:
+                    await VIDEO_CALL[chat_id].stop()
+                    os.remove(f"{source}")
+                except Exception as e:
+                    pass
+                return
             await msg.delete()
+            group_call.on_playout_ended
             keyboard = InlineKeyboardMarkup(
 
                 [
@@ -121,6 +139,15 @@ async def cstream(client, m: Message):
                 await group_call.join(int(chat_id))
                 await group_call.start_video(livelink)
                 CHANNEL_VIDEO[chat_id] = group_call
+                @group_call.on_playout_ended
+                async def media_ended(_, source, media_type):
+                    print(f'{media_type} ended: {source}')
+                    try:
+                        await CHANNEL_VIDEO[chat_id].stop()
+                        os.remove(f"{source}")
+                    except Exception as e:
+                        pass
+                    return
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
 
@@ -151,6 +178,15 @@ async def cstream(client, m: Message):
             await group_call.join(int(chat_id))
             await group_call.start_video(video, enable_experimental_lip_sync=True)
             CHANNEL_VIDEO[chat_id] = group_call
+            @group_call.on_playout_ended
+            async def media_ended(_, source, media_type):
+                print(f'{media_type} ended: {source}')
+                try:
+                    await CHANNEL_VIDEO[chat_id].stop()
+                    os.remove(f"{source}")
+                except Exception as e:
+                    pass
+                return
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
 
