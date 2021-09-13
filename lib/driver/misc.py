@@ -59,7 +59,7 @@ async def ping_(client: Client, message: Message):
 
 @Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
 async def repo(client, message):
-    repo = "https://github.com/Imszy17/tg-stream-video"
+    repo = "https://github.com/galihmrd/tg-stream-video"
     await message.reply(f"**Source code:** [Here]({repo})")
 
 @Client.on_message(filters.command(["schedule",
