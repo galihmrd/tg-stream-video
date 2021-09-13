@@ -27,6 +27,8 @@ from lib.config import USERNAME_BOT
 from lib.helpers.filters import private_filters, public_filters
 from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, PAUSE, RESUME
 
+group_call = group_call_factory.get_group_call()
+
 
 @Client.on_message(filters.command(["stream",
                                     "stream@{USERNAME_BOT}"]) & public_filters)
@@ -42,21 +44,16 @@ async def stream(client, m: Message):
             user = m.from_user.mention
             await asyncio.sleep(1)
             try:
-                group_call = group_call_factory.get_group_call()
-                await group_call.join(chat_id)
+                if not group_call.is_connected:
+                    await group_call.join(chat_id)
+                else:
+                    await group_call.stop()
+                    await asyncio.sleep(3)
+                    await group_call.join(chat_id)
                 await group_call.start_video(livelink)
                 VIDEO_CALL[chat_id] = group_call
                 PAUSE[chat_id] = group_call
                 RESUME[chat_id] = group_call
-                @group_call.on_playout_ended
-                async def media_ended(_, source, media_type):
-                    print(f'{media_type} ended: {source}')
-                    try:
-                        await VIDEO_CALL[chat_id].stop()
-                        os.remove(f"{source}")
-                    except Exception:
-                        pass
-                    return
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
 
@@ -83,21 +80,16 @@ async def stream(client, m: Message):
         user = m.from_user.mention
         await asyncio.sleep(2)
         try:
-            group_call = group_call_factory.get_group_call()
-            await group_call.join(chat_id)
+            if not group_call.is_connected:
+                await group_call.join(chat_id)
+            else:
+                await group_call.stop()
+                await asyncio.sleep(3)
+                await group_call.join(chat_id)
             await group_call.start_video(video, enable_experimental_lip_sync=True)
             VIDEO_CALL[chat_id] = group_call
             PAUSE[chat_id] = group_call
             RESUME[chat_id] = group_call
-            @group_call.on_playout_ended
-            async def media_ended(_, source, media_type):
-                print(f'{media_type} ended: {source}')
-                try:
-                    await VIDEO_CALL[chat_id].stop()
-                    os.remove(f"{source}")
-                except Exception:
-                    pass
-                return
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
 
@@ -134,19 +126,14 @@ async def cstream(client, m: Message):
             user = m.from_user.mention
             await asyncio.sleep(1)
             try:
-                group_call = group_call_factory.get_group_call()
-                await group_call.join(int(chat_id))
+                if not group_call.is_connected:
+                    await group_call.join(int(chat_id))
+                else:
+                    await group_call.stop()
+                    await asyncio.sleep(3)
+                    await group_call.join(int(chat_id))
                 await group_call.start_video(livelink)
                 CHANNEL_VIDEO[chat_id] = group_call
-                @group_call.on_playout_ended
-                async def media_ended(_, source, media_type):
-                    print(f'{media_type} ended: {source}')
-                    try:
-                        await CHANNEL_VIDEO[chat_id].stop()
-                        os.remove(f"{source}")
-                    except Exception:
-                        pass
-                    return
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
 
@@ -173,19 +160,14 @@ async def cstream(client, m: Message):
         user = m.from_user.mention
         await asyncio.sleep(2)
         try:
-            group_call = group_call_factory.get_group_call()
-            await group_call.join(int(chat_id))
+            if not group_call.is_connected:
+                await group_call.join(int(chat_id))
+            else:
+                await group_call.stop()
+                await asyncio.sleep(3)
+                await group_call.join(int(chat_id))
             await group_call.start_video(video, enable_experimental_lip_sync=True)
             CHANNEL_VIDEO[chat_id] = group_call
-            @group_call.on_playout_ended
-            async def media_ended(_, source, media_type):
-                print(f'{media_type} ended: {source}')
-                try:
-                    await CHANNEL_VIDEO[chat_id].stop()
-                    os.remove(f"{source}")
-                except Exception:
-                    pass
-                return
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
 
@@ -206,3 +188,12 @@ async def cstream(client, m: Message):
             await msg.edit(f"**Error** -- `{e}`")
     else:
         await m.reply("`Reply to some Video!`")
+
+@group_call.on_playout_ended
+async def media_ended(gc, source, media_type):
+    print(f'{media_type} ended: {source}')
+    try:
+        await group_call.stop()
+        os.remove(source)
+    except Exception:
+        pass
