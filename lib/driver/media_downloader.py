@@ -53,3 +53,39 @@ async def video(client, message):
         await msg.delete()
     except Exception as e:
         print(e)
+
+@Client.on_message(filters.command("music"))
+async def music(client, message):
+    input = message.command[1]
+    try:
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
+        results = YoutubeSearch(input, max_results=1).to_dict()
+        link = f"https://youtube.com{results[0]['url_suffix']}"
+        title = results[0]["title"][:40]
+        thumbnail = results[0]["thumbnails"][0]
+        thumb_name = f"thumb{title}.jpg"
+        thumb = requests.get(thumbnail, allow_redirects=True)
+        open(thumb_name, "wb").write(thumb.content)
+
+        duration = results[0]["duration"]
+        results[0]["url_suffix"]
+        results[0]["views"]
+    except Exception as e:
+        await message.reply("{str(e)}")
+    msg = await message.reply("```Downloading...```")
+    preview = wget.download(thumbnail)
+    with YoutubeDL(ydl_opts) as ydl:
+        info_dict = ydl.extract_info(link, download=False)
+        audio_file = ydl.prepare_filename(info_dict)
+        ydl.process_info(info_dict)
+    await msg.edit("```Uploading to telegram server...```")
+    await message.reply_audio(
+        audio_file,
+        duration=int(info_dict["duration"]),
+        thumb=preview,
+        caption=info_dict['title'])
+    try:
+        os.remove(audio_file)
+        await msg.delete()
+    except Exception as e:
+        print(e)
