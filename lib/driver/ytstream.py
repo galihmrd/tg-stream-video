@@ -53,7 +53,7 @@ async def ytstream(client, message):
             await group_call.stop()
             await asyncio.sleep(3)
             await group_call.join(chat_id)
-        await group_call.start_video(final_source, enable_experimental_lip_sync=True)
+        await group_call.start_video(final_source, enable_experimental_lip_sync=True, repeat=False)
         VIDEO_CALL[chat_id] = group_call
         PAUSE[chat_id] = group_call
         RESUME[chat_id] = group_call
@@ -96,7 +96,7 @@ async def cstream(client, message):
             await group_call.stop()
             await asyncio.sleep(3)
             await group_call.join(int(chat_id))
-        await group_call.start_video(source, enable_experimental_lip_sync=True)
+        await group_call.start_video(source, enable_experimental_lip_sync=True, repeat=False)
         CHANNEL_VIDEO[chat_id] = group_call
         await text.delete()
         keyboard = InlineKeyboardMarkup(

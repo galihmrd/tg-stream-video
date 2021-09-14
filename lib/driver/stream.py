@@ -50,7 +50,7 @@ async def stream(client, m: Message):
                     await group_call.stop()
                     await asyncio.sleep(3)
                     await group_call.join(chat_id)
-                await group_call.start_video(livelink)
+                await group_call.start_video(livelink, repeat=False)
                 VIDEO_CALL[chat_id] = group_call
                 PAUSE[chat_id] = group_call
                 RESUME[chat_id] = group_call
@@ -86,7 +86,7 @@ async def stream(client, m: Message):
                 await group_call.stop()
                 await asyncio.sleep(3)
                 await group_call.join(chat_id)
-            await group_call.start_video(video, enable_experimental_lip_sync=True)
+            await group_call.start_video(video, enable_experimental_lip_sync=True, repeat=False)
             VIDEO_CALL[chat_id] = group_call
             PAUSE[chat_id] = group_call
             RESUME[chat_id] = group_call
@@ -132,7 +132,7 @@ async def cstream(client, m: Message):
                     await group_call.stop()
                     await asyncio.sleep(3)
                     await group_call.join(int(chat_id))
-                await group_call.start_video(livelink)
+                await group_call.start_video(livelink, repeat=False)
                 CHANNEL_VIDEO[chat_id] = group_call
                 await msg.delete()
                 keyboard = InlineKeyboardMarkup(
@@ -166,7 +166,7 @@ async def cstream(client, m: Message):
                 await group_call.stop()
                 await asyncio.sleep(3)
                 await group_call.join(int(chat_id))
-            await group_call.start_video(video, enable_experimental_lip_sync=True)
+            await group_call.start_video(video, enable_experimental_lip_sync=True, repeat=False)
             CHANNEL_VIDEO[chat_id] = group_call
             await msg.delete()
             keyboard = InlineKeyboardMarkup(
