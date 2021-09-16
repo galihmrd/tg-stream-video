@@ -24,7 +24,7 @@ from pyrogram.types import (
 )
 from lib.config import USERNAME_BOT
 from lib.tg_stream import group_call_factory
-from lib.driver.misc import CHANNEL_VIDEO, VIDEO_CALL, PAUSE, RESUME
+from lib.driver.misc import VIDEO_CALL, PAUSE, RESUME
 from lib.helpers.filters import private_filters, public_filters
 
 group_call = group_call_factory.get_group_call()
@@ -97,7 +97,9 @@ async def cstream(client, message):
             await asyncio.sleep(3)
             await group_call.join(int(chat_id))
         await group_call.start_video(source, enable_experimental_lip_sync=True, repeat=False)
-        CHANNEL_VIDEO[chat_id] = group_call
+        VIDEO_CALL[chat_id] = group_call
+        PAUSE[chat_id] = group_call
+        RESUME[chat_id] = group_call
         await text.delete()
         keyboard = InlineKeyboardMarkup(
             [

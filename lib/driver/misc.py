@@ -23,7 +23,6 @@ from lib.helpers.filters import private_filters, public_filters
 from lib.tg_stream import group_call_factory
 
 VIDEO_CALL = {}
-CHANNEL_VIDEO = {}
 PAUSE = {}
 RESUME = {}
 
@@ -31,23 +30,21 @@ RESUME = {}
                                     "stop@{USERNAME_BOT}"]) & public_filters)
 async def stopvideo(client, m: Message):
     chat_id = m.chat.id
+    channel_id = m.chat.title
+    flags = " ".join(m.command[1:])
     user = m.from_user.mention
-    try:
-        await VIDEO_CALL[chat_id].stop()
-        await m.reply(f"**Stopped by {user}!**")
-    except Exception as e:
-        await m.reply(f"**Error:** {str(e)}")
-
-@Client.on_message(filters.command(["cstop",
-                                    "cstop@{USERNAME_BOT"]) & public_filters)
-async def cstop(client, message):
-    chat_id = message.chat.title
-    user = message.from_user.mention
-    try:
-        await CHANNEL_VIDEO[chat_id].stop()
-        await message.reply(f"**Stopped by {user}!**")
-    except Exception as e:
-        await message.reply(f"**Error:** {str(e)}")
+    if flags == "channel":
+         try:
+             await VIDEO_CALL[channel_id].stop()
+             await m.reply(f"**Channel Stream**\n**Stopped by {user}!**")
+         except Exception as e:
+             await m.reply(f"**Error:** {str(e)}")
+    else:
+         try:
+             await VIDEO_CALL[chat_id].stop()
+             await m.reply(f"**Stopped by {user}**")
+         except Exception as e:
+             await m.reply(f"{str(e)}")
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
 async def ping_(client: Client, message: Message):
@@ -89,17 +86,35 @@ async def sch(client, message):
 @Client.on_message(filters.command(["pause", "pause@{USERNAME_BOT}"]))
 async def pause(client, message):
     chat_id = message.chat.id
-    try:
-        await PAUSE[chat_id].set_pause(True)
-        await message.reply("**Pause stream!**")
-    except Exception as e:
-        await message.reply(f"{str(e)}")
+    channel_id = message.chat.title
+    flags = " ".join(message.command[1:])
+    if flags == "channel":
+         try:
+             await PAUSE[channel_id].set_pause(True)
+             await message.reply("**Pause Channel stream!**")
+         except Exception as e:
+             await message.reply(f"{str(e)}")
+    else:
+         try:
+             await PAUSE[chat_id].set_pause(True)
+             await message.reply("**Pause stream!**")
+         except Exception as e:
+             await message.reply(f"{str(e)}")
 
 @Client.on_message(filters.command(["resume", "resume@{USERNAME_BOT}"]))
 async def resume(client, message):
     chat_id = message.chat.id
-    try:
-       await RESUME[chat_id].set_pause(False)
-       await message.reply("**Resume stream!**")
-    except Exception as e:
-       await message.reply(f"{str(e)}")
+    channel_id = message.chat.title
+    flags = " ".join(message.command[1:])
+    if flags == "channel":
+         try:
+             await RESUME[channel_id].set_pause(False)
+             await message.reply("**Resume channel stream!**")
+         except Exception as e:
+             await message.reply(f"{str(e)}")
+    else:
+         try:
+             await RESUME[chat_id].set_pause(False)
+             await message.reply("**Resume stream!**")
+         except Exception as e:
+             await message.reply(f"{str(e)}")
