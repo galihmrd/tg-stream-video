@@ -13,19 +13,16 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
-import os
 import asyncio
+import os
 
 from pyrogram import Client, filters
-from pyrogram.types import (
-     InlineKeyboardButton,
-     InlineKeyboardMarkup,
-     Message,
-)
-from lib.tg_stream import group_call_factory
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
 from lib.config import USERNAME_BOT
-from lib.helpers.filters import private_filters, public_filters
-from lib.driver.misc import VIDEO_CALL, PAUSE, RESUME
+from lib.driver.misc import PAUSE, RESUME, VIDEO_CALL
+from lib.helpers.filters import public_filters
+from lib.tg_stream import group_call_factory
 
 group_call = group_call_factory.get_group_call()
 
@@ -192,6 +189,7 @@ async def cstream(client, m: Message):
             await msg.edit(f"**Error** -- `{e}`")
     else:
         await m.reply("`Reply to some Video!`")
+
 
 @group_call.on_playout_ended
 async def media_ended(gc, source, media_type):

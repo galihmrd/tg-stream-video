@@ -15,16 +15,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 
 import asyncio
 from datetime import datetime
-from pyrogram.types import Message
+
 from pyrogram import Client, filters
+from pyrogram.types import Message
 
 from lib.config import USERNAME_BOT
-from lib.helpers.filters import private_filters, public_filters
-from lib.tg_stream import group_call_factory
+from lib.helpers.filters import public_filters
 
 VIDEO_CALL = {}
 PAUSE = {}
 RESUME = {}
+
 
 @Client.on_message(filters.command(["stop",
                                     "stop@{USERNAME_BOT}"]) & public_filters)
@@ -34,17 +35,18 @@ async def stopvideo(client, m: Message):
     flags = " ".join(m.command[1:])
     user = m.from_user.mention
     if flags == "channel":
-         try:
-             await VIDEO_CALL[channel_id].stop()
-             await m.reply(f"**Channel Stream**\n**Stopped by {user}!**")
-         except Exception as e:
-             await m.reply(f"**Error:** {str(e)}")
+        try:
+            await VIDEO_CALL[channel_id].stop()
+            await m.reply(f"**Channel Stream**\n**Stopped by {user}!**")
+        except Exception as e:
+            await m.reply(f"**Error:** {str(e)}")
     else:
-         try:
-             await VIDEO_CALL[chat_id].stop()
-             await m.reply(f"**Stopped by {user}**")
-         except Exception as e:
-             await m.reply(f"{str(e)}")
+        try:
+            await VIDEO_CALL[chat_id].stop()
+            await m.reply(f"**Stopped by {user}**")
+        except Exception as e:
+            await m.reply(f"{str(e)}")
+
 
 @Client.on_message(filters.command(["ping", "ping@{USERNAME_BOT}"]))
 async def ping_(client: Client, message: Message):
@@ -54,10 +56,12 @@ async def ping_(client: Client, message: Message):
     latency = (end - start).microseconds / 1000
     await msg.edit(f"**Latency:** `{latency} ms`")
 
+
 @Client.on_message(filters.command(["repo", "repo@{USERNAME_BOT}"]))
 async def repo(client, message):
     repo = "https://github.com/galihmrd/tg-stream-video"
     await message.reply(f"**Source code:** [Here]({repo})")
+
 
 @Client.on_message(filters.command(["schedule",
                                     "schedule@{USERNAME_BOT}"]) & public_filters)
@@ -83,23 +87,25 @@ async def sch(client, message):
     except Exception:
         pass
 
+
 @Client.on_message(filters.command(["pause", "pause@{USERNAME_BOT}"]))
 async def pause(client, message):
     chat_id = message.chat.id
     channel_id = message.chat.title
     flags = " ".join(message.command[1:])
     if flags == "channel":
-         try:
-             await PAUSE[channel_id].set_pause(True)
-             await message.reply("**Pause Channel stream!**")
-         except Exception as e:
-             await message.reply(f"{str(e)}")
+        try:
+            await PAUSE[channel_id].set_pause(True)
+            await message.reply("**Pause Channel stream!**")
+        except Exception as e:
+            await message.reply(f"{str(e)}")
     else:
-         try:
-             await PAUSE[chat_id].set_pause(True)
-             await message.reply("**Pause stream!**")
-         except Exception as e:
-             await message.reply(f"{str(e)}")
+        try:
+            await PAUSE[chat_id].set_pause(True)
+            await message.reply("**Pause stream!**")
+        except Exception as e:
+            await message.reply(f"{str(e)}")
+
 
 @Client.on_message(filters.command(["resume", "resume@{USERNAME_BOT}"]))
 async def resume(client, message):
@@ -107,14 +113,14 @@ async def resume(client, message):
     channel_id = message.chat.title
     flags = " ".join(message.command[1:])
     if flags == "channel":
-         try:
-             await RESUME[channel_id].set_pause(False)
-             await message.reply("**Resume channel stream!**")
-         except Exception as e:
-             await message.reply(f"{str(e)}")
+        try:
+            await RESUME[channel_id].set_pause(False)
+            await message.reply("**Resume channel stream!**")
+        except Exception as e:
+            await message.reply(f"{str(e)}")
     else:
-         try:
-             await RESUME[chat_id].set_pause(False)
-             await message.reply("**Resume stream!**")
-         except Exception as e:
-             await message.reply(f"{str(e)}")
+        try:
+            await RESUME[chat_id].set_pause(False)
+            await message.reply("**Resume stream!**")
+        except Exception as e:
+            await message.reply(f"{str(e)}")

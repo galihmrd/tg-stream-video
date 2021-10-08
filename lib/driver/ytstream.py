@@ -13,19 +13,17 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
-import os
-import pafy
 import asyncio
+import os
+
+import pafy
 from pyrogram import Client, filters
-from pyrogram.types import (
-     InlineKeyboardButton,
-     InlineKeyboardMarkup,
-     Message,
-)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from lib.config import USERNAME_BOT
+from lib.driver.misc import PAUSE, RESUME, VIDEO_CALL
+from lib.helpers.filters import public_filters
 from lib.tg_stream import group_call_factory
-from lib.driver.misc import VIDEO_CALL, PAUSE, RESUME
-from lib.helpers.filters import private_filters, public_filters
 
 group_call = group_call_factory.get_group_call()
 
@@ -73,6 +71,7 @@ async def ytstream(client, message):
             reply_markup=keyboard,
         )
 
+
 @Client.on_message(filters.command(["ytcstream",
                                     "ytstream@{USERNAME_BOT}"]) & public_filters)
 async def cstream(client, message):
@@ -115,6 +114,7 @@ async def cstream(client, message):
             photo="./etc/banner.png",
             reply_markup=keyboard,
         )
+
 
 @group_call.on_playout_ended
 async def media_ended(gc, source, media_type):

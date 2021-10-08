@@ -1,20 +1,19 @@
 import os
-import math
+
 import wget
-import requests
-from yt_dlp import YoutubeDL
-from pyrogram.types import Message
 from pyrogram import Client, filters
 from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
 
 ydl_opts = {
-        'format':'best',
-        'keepvideo':True,
-        'prefer_ffmpeg':False,
-        'geo_bypass':True,
-        'outtmpl':'%(title)s.%(ext)s',
-        'quite':True
+    'format': 'best',
+    'keepvideo': True,
+    'prefer_ffmpeg': False,
+    'geo_bypass': True,
+    'outtmpl': '%(title)s.%(ext)s',
+    'quite': True
 }
+
 
 @Client.on_message(filters.command("video"))
 async def video(client, message):
@@ -49,6 +48,7 @@ async def video(client, message):
     except Exception as e:
         print(e)
 
+
 @Client.on_message(filters.command("music"))
 async def music(client, message):
     input = " ".join(message.command[1:])
@@ -61,7 +61,7 @@ async def music(client, message):
         duration = results[0]["duration"]
         results[0]["url_suffix"]
     except Exception as e:
-        await message.reply("{str(e)}")
+        await message.reply(e)
     msg = await message.reply("```Downloading...```")
     preview = wget.download(thumbnail)
     with YoutubeDL(ydl_opts) as ydl:

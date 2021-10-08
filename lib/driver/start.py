@@ -13,11 +13,9 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
-from pyrogram.types import Message
 from pyrogram import Client, filters
 
 from lib.config import USERNAME_BOT
-
 
 HELP_TEXT = """**List Command:**
 
@@ -33,9 +31,11 @@ HELP_TEXT = """**List Command:**
 **/schedule** {value} -> [stop scheduler]
 """
 
+
 @Client.on_message(filters.command(["start", "start@{USERNAME_BOT}"]))
 async def start(client, message):
     await message.reply("**👋 I'm alive**")
+
 
 @Client.on_message(filters.command(["help", "help@{USERNAME_BOT}"]))
 async def help(client, message):
