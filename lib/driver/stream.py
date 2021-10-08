@@ -41,12 +41,10 @@ async def stream(client, m: Message):
             user = m.from_user.mention
             await asyncio.sleep(1)
             try:
-                if not group_call.is_connected:
-                    await group_call.join(chat_id)
-                else:
+                if group_call.is_connected:
                     await group_call.stop()
                     await asyncio.sleep(3)
-                    await group_call.join(chat_id)
+                await group_call.join(chat_id)
                 await group_call.start_video(livelink, repeat=False)
                 VIDEO_CALL[chat_id] = group_call
                 PAUSE[chat_id] = group_call
@@ -77,12 +75,10 @@ async def stream(client, m: Message):
         user = m.from_user.mention
         await asyncio.sleep(2)
         try:
-            if not group_call.is_connected:
-                await group_call.join(chat_id)
-            else:
+            if group_call.is_connected:
                 await group_call.stop()
                 await asyncio.sleep(3)
-                await group_call.join(chat_id)
+            await group_call.join(chat_id)
             await group_call.start_video(video, enable_experimental_lip_sync=True, repeat=False)
             VIDEO_CALL[chat_id] = group_call
             PAUSE[chat_id] = group_call
@@ -123,12 +119,10 @@ async def cstream(client, m: Message):
             user = m.from_user.mention
             await asyncio.sleep(1)
             try:
-                if not group_call.is_connected:
-                    await group_call.join(int(chat_id))
-                else:
+                if group_call.is_connected:
                     await group_call.stop()
                     await asyncio.sleep(3)
-                    await group_call.join(int(chat_id))
+                await group_call.join(int(chat_id))
                 await group_call.start_video(livelink, repeat=False)
                 VIDEO_CALL[chat_id] = group_call
                 PAUSE[chat_id] = group_call
@@ -159,12 +153,10 @@ async def cstream(client, m: Message):
         user = m.from_user.mention
         await asyncio.sleep(2)
         try:
-            if not group_call.is_connected:
-                await group_call.join(int(chat_id))
-            else:
+            if group_call.is_connected:
                 await group_call.stop()
                 await asyncio.sleep(3)
-                await group_call.join(int(chat_id))
+            await group_call.join(int(chat_id))
             await group_call.start_video(video, enable_experimental_lip_sync=True, repeat=False)
             VIDEO_CALL[chat_id] = group_call
             PAUSE[chat_id] = group_call
