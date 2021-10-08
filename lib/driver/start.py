@@ -14,7 +14,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 
 from pyrogram import Client, filters
-from pyrogram.types import Message
 
 from lib.config import USERNAME_BOT
 

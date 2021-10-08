@@ -21,7 +21,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from lib.config import USERNAME_BOT
 from lib.driver.misc import PAUSE, RESUME, VIDEO_CALL
-from lib.helpers.filters import private_filters, public_filters
+from lib.helpers.filters import public_filters
 from lib.tg_stream import group_call_factory
 
 group_call = group_call_factory.get_group_call()

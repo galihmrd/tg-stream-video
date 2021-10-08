@@ -20,8 +20,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from lib.config import USERNAME_BOT
-from lib.helpers.filters import private_filters, public_filters
-from lib.tg_stream import group_call_factory
+from lib.helpers.filters import public_filters
 
 VIDEO_CALL = {}
 PAUSE = {}

@@ -1,10 +1,7 @@
-import math
 import os
 
-import requests
 import wget
 from pyrogram import Client, filters
-from pyrogram.types import Message
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
@@ -64,7 +61,7 @@ async def music(client, message):
         duration = results[0]["duration"]
         results[0]["url_suffix"]
     except Exception as e:
-        await message.reply("{str(e)}")
+        await message.reply(e)
     msg = await message.reply("```Downloading...```")
     preview = wget.download(thumbnail)
     with YoutubeDL(ydl_opts) as ydl:

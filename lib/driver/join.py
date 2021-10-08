@@ -18,11 +18,9 @@ from random import randint
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.raw.functions.phone import CreateGroupCall
-from pyrogram.raw.types import InputGroupCall
-from pyrogram.types import Message
 
 from lib.config import USERNAME_BOT
-from lib.helpers.filters import private_filters, public_filters
+from lib.helpers.filters import public_filters
 from lib.tg_stream import app as USER
 
 
