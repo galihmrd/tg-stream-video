@@ -14,6 +14,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>
 '''
 from pyrogram import Client
 from pytgcalls import GroupCallFactory
+
 from lib.config import API_HASH, API_ID, SESSION_NAME
 
 app = Client(SESSION_NAME, API_ID, API_HASH)

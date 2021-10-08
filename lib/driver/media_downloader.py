@@ -1,20 +1,22 @@
-import os
 import math
-import wget
+import os
+
 import requests
-from yt_dlp import YoutubeDL
-from pyrogram.types import Message
+import wget
 from pyrogram import Client, filters
+from pyrogram.types import Message
 from youtube_search import YoutubeSearch
+from yt_dlp import YoutubeDL
 
 ydl_opts = {
-        'format':'best',
-        'keepvideo':True,
-        'prefer_ffmpeg':False,
-        'geo_bypass':True,
-        'outtmpl':'%(title)s.%(ext)s',
-        'quite':True
+    'format': 'best',
+    'keepvideo': True,
+    'prefer_ffmpeg': False,
+    'geo_bypass': True,
+    'outtmpl': '%(title)s.%(ext)s',
+    'quite': True
 }
+
 
 @Client.on_message(filters.command("video"))
 async def video(client, message):
@@ -48,6 +50,7 @@ async def video(client, message):
         await msg.delete()
     except Exception as e:
         print(e)
+
 
 @Client.on_message(filters.command("music"))
 async def music(client, message):
